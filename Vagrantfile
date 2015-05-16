@@ -10,6 +10,11 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder '.', '/vagrant', :mount_options => ['dmode=755', 'fmode=644']
   config.vm.synced_folder 'srv/wordpress', '/srv/wordpress', :create => 'true', :mount_options => ['dmode=755', 'fmode=644']
 
+  if Vagrant.has_plugin?('vagrant-multiplug')
+    config.plugin.add_dependency 'vagrant-hostsupdater'
+    config.plugin.add_dependency 'vagrant-vbguest'
+  end
+
   if Vagrant.has_plugin?('vagrant-hostsupdater')
     config.hostsupdater.remove_on_suspend = true
   end

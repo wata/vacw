@@ -1,22 +1,91 @@
+# yum
+# clock
+# localtime
+# ntp
 # mysql
 # nginx
 # wordpress
 # php-fpm
 
 ---
-######################################################################### mysql
+###################################################################### yum
+
+- name: Install libselinux-python
+  yum: name=libselinux-python state=present
+
+- name: Disable SELinux
+  selinux: state=disabled
+
+- name: Copy the EPEL repository definition
+  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo
+
+- name: Create the GPG key for EPEL
+  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+
+- name: Install packages
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - ntp
+
+###################################################################### services
+- name: Disable services
+  service: name={{ item }} state=stopped enabled=no
+  with_items:
+    # - cpid
+    # - apmd
+    # - atd
+    - auditd
+    # - autofs
+    # - avahi-daemon
+    # - avahi-dnsconfd
+    # - bluetooth
+    # - cups
+    # - dhcdbd
+    # - firstboot
+    # - gpm
+    # - hidd
+    # - isdn
+    # - mcstrans
+    - mdmonitor
+    - netfs
+    # - nfslock
+    # - pand
+    # - pcscd
+    # - portmap
+    # - readahead_early
+    # - restorecond
+    # - rpcgssd
+    # - rpcidmapd
+    # - yum-updatesd
+    # - xfs
+    # - httpd
+    # - ajaxterm
+    - iptables
+    - ip6tables
+
+###################################################################### clock
+- name: Setup clock
+  template: src=clock dest=/etc/sysconfig/clock
+
+###################################################################### localtime
+- name: Setup localtime
+  shell: cp /usr/share/zoneinfo/Japan /etc/localtime
+
+###################################################################### ntp
+- name: Setup ntpd
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
+
+###################################################################### mysql
 - name: Install Mysql package
   yum: name={{ item }} state=present
   with_items:
-    - mysql-devel
     - mysql-server
     - MySQL-python
     - libselinux-python
     - libsemanage-python
-
-- name: Configure SELinux to start mysql on any port
-  seboolean: name=mysql_connect_any state=true persistent=yes
-  when: ansible_selinux.status == "enabled"
 
 - name: Create Mysql configuration file
   template: src=my.cnf.j2 dest=/etc/my.cnf
@@ -25,7 +94,7 @@
 - name: Start Mysql Service
   service: name=mysqld state=started enabled=yes
 
-######################################################################## nginx
+###################################################################### nginx
 - name: Install nginx
   yum: name=nginx state=present
 
@@ -44,7 +113,7 @@
 - name: Start nginx Service
   service: name=nginx state=started enabled=yes
 
-######################################################################## wordpress
+###################################################################### wordpress
 - name: Download Wordpress
   get_url: url=http://ja.wordpress.org/wordpress-{{ wp_version }}.tar.gz dest=/srv/wordpress-{{ wp_version }}.tar.gz
 
@@ -71,7 +140,7 @@
 - name: Change ownership of Wordpress installation
   file: path=/srv/wordpress/ owner={{ wp_user }} group={{ wp_user }} state=directory recurse=yes
 
-######################################################################## php
+###################################################################### php
 - name: Install php-fpm and deps
   yum: name={{ item }} state=present enablerepo=epel
   with_items:

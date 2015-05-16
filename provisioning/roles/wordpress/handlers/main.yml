@@ -1,4 +1,7 @@
 ---
+- name: restart ntpd
+  service: name=ntpd state=restarted enabled=yes
+
 - name: restart mysql
   service: name=mysqld state=restarted enabled=yes
 

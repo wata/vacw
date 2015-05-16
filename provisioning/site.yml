@@ -3,5 +3,4 @@
   sudo: yes
   gather_facts: on
   roles:
-    - common
     - wordpress
