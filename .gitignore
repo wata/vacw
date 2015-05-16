@@ -1,5 +1,7 @@
+*~
 .DS_Store
 .bundle
 .vagrant
-vendor
+/*.lock
+/vendor/bundle
 srv
