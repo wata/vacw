@@ -1,4 +1,4 @@
-# VACW (vagrant-ansible-wordpress)
+# VACW (vagrant-ansible-centos-wordpress)
 
 This is a Vagrant configuration designed for development of WordPress plugins, themes, or websites.
 
