@@ -28,7 +28,7 @@
     - ntp
     - git
 
-######################################################################## service
+######################################################################## services
 - name: Disable services
   service: name={{ item }} state=stopped enabled=no
   with_items:

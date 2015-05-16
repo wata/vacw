@@ -27,5 +27,25 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision 'ansible' do |ansible|
     ansible.playbook = 'provisioning/site.yml'
+    ansible.extra_vars = {
+      # ntp
+      ntp_server: 'ntp.nict.jp',
+
+      # wordpress
+      wp_version: '4.2.2-ja',
+      wp_user: 'vagrant',
+      wp_db_name: 'wordpress',
+      wp_db_user: 'wordpress',
+      wp_db_password: 'wordpress',
+      wp_db_prefix: 'local',
+      auto_up_disable: 'false',
+      core_update_level: 'false',
+
+      # nginx
+      server_hostname: 'wordpress.local',
+
+      # mysql
+      mysql_port: 3306
+    }
   end
 end
