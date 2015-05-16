@@ -1,4 +1,4 @@
-# VCCW (vagrant-chef-wordpress)
+# VACW (vagrant-ansible-wordpress)
 
 This is a Vagrant configuration designed for development of WordPress plugins, themes, or websites.
 
