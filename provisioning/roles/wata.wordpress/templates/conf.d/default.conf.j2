@@ -1,6 +1,6 @@
 server {
     listen       80;
-    server_name  {{ server_hostname }};
+    server_name  {{ nginx_server_name }};
     root /srv/wordpress/;
 
     access_log  /var/log/nginx/access.log ltsv;
@@ -40,7 +40,7 @@ server {
 
 server {
     listen       443;
-    server_name  {{ server_hostname }};
+    server_name  {{ nginx_server_name }};
     root /srv/wordpress/;
 
     access_log  /var/log/nginx/access.log ltsv;

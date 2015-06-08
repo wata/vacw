@@ -1,0 +1,15 @@
+# from galaxy
+- src: wata.base
+- src: wata.wordpress
+
+# from github
+# - src: https://github.com/bennojoy/nginx
+
+# from github installing to a relative path
+# - src: https://github.com/bennojoy/nginx
+#   path: vagrant/roles/
+
+# from github, overriding the name and specifying a specific tag
+# - src: https://github.com/bennojoy/nginx
+#   version: master
+#   name: nginx_role

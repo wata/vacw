@@ -3,4 +3,5 @@
   sudo: yes
   gather_facts: on
   roles:
-    - wordpress
+    - wata.base
+    - wata.wordpress

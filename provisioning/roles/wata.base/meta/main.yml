@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: wata
+  description: Setup base
+  company: "ZINE Inc."
+  license: MIT
+  min_ansible_version: 1.2
+  categories:
+    - system
+
+dependencies: []
