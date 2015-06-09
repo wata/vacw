@@ -1,2 +1,79 @@
+# yum
+# clock
+# localtime
+# ntp
+
 ---
-# tasks file for ansible-role-base
+######################################################################## yum
+- name: Update packages
+  yum: name=* state=latest
+
+- name: Add repository 'rpmforge-repo'
+  yum: name=http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm state=present
+
+- name: Add repository 'remi-repo'
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-6.rpm state=present
+
+- name: Add repository 'epel-repo'
+  yum: name=http://ftp.riken.jp/Linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm state=present
+
+- name: Create the GPG key for EPEL
+  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+
+- name: Install packages
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - git
+    - zsh
+    - mosh
+
+######################################################################## service
+- name: Disable services
+  service: name={{ item }} state=stopped enabled=no
+  with_items:
+    # - cpid
+    # - apmd
+    - atd
+    - auditd
+    # - autofs
+    # - avahi-daemon
+    # - avahi-dnsconfd
+    # - bluetooth
+    # - cups
+    # - dhcdbd
+    # - firstboot
+    # - gpm
+    # - hidd
+    # - isdn
+    # - mcstrans
+    - mdmonitor
+    - netfs
+    # - nfslock
+    # - pand
+    # - pcscd
+    # - portmap
+    # - readahead_early
+    # - restorecond
+    # - rpcgssd
+    # - rpcidmapd
+    # - yum-updatesd
+    # - xfs
+    # - httpd
+    # - ajaxterm
+    - iptables
+    - ip6tables
+
+######################################################################## clock
+- name: Setup clock
+  template: src=clock.j2 dest=/etc/sysconfig/clock
+
+######################################################################## localtime
+- name: Setup localtime
+  shell: cp /usr/share/zoneinfo/Japan /etc/localtime
+
+######################################################################## ntp
+- name: Setup ntpd
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntpd
