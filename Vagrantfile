@@ -47,9 +47,9 @@ Vagrant.configure(2) do |config|
       core_update_level: 'false',
 
       # nginx
-      nginx_server_name: 'wordpress.local'
-      nginx_htpasswd_name: 'admin'
-      nginx_htpasswd_password: 'password'
+      nginx_server_name: 'wordpress.local',
+      nginx_htpasswd_name: 'admin',
+      nginx_htpasswd_password: 'password',
 
       # mysql
       mysql_port: 3306
