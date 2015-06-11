@@ -52,7 +52,13 @@ Vagrant.configure(2) do |config|
       nginx_htpasswd_password: 'password',
 
       # mysql
-      mysql_port: 3306
+      mysql_port: 3306,
+
+      rbenv: {
+        env: 'system',
+        version: 'v0.4.0',
+        ruby_version: '2.2.2'
+      }
     }
   end
 end

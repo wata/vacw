@@ -24,6 +24,7 @@
   yum: name={{ item }} state=present
   with_items:
     - gcc
+    - libselinux-python
     - git
     - zsh
     - mosh
@@ -34,7 +35,7 @@
   with_items:
     # - cpid
     # - apmd
-    - atd
+    # - atd
     - auditd
     # - autofs
     # - avahi-daemon

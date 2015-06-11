@@ -10,7 +10,6 @@
   with_items:
     - mysql-devel
     - mysql-server
-    - libselinux-python
     - libsemanage-python
 
 - name: Install mysql python module (via yum)
@@ -43,7 +42,10 @@
 
 ######################################################################## nginx
 - name: Install nginx
-  yum: name=nginx state=present
+  yum: name={{ item }} state=present
+  with_items:
+    - python-passlib
+    - nginx
 
 - name: Create nginx htpasswd
   htpasswd: path=/etc/nginx/.htpasswd name={{ nginx_htpasswd_name }} password={{ nginx_htpasswd_password }} owner=root group=root mode=0640
@@ -86,7 +88,7 @@
 
 # SEE ALSO: https://github.com/ansible/ansible/issues/9526
 - name: Copy Wordpress config file
-  template: src=wp-config.php.j2 dest=/tmp/
+  template: src=wp-config.php.j2 dest=/tmp/wp-config.php
 - name: Move Wordpress config file
   command: mv /tmp/wp-config.php /srv/wordpress/
 
@@ -119,7 +121,7 @@
   notify: restart php-fpm
 
 - name: Copy php-fpm configuration
-  template: src=wordpress.conf.j2 dest=/etc/php-fpm.d/
+  template: src=wordpress.conf.j2 dest=/etc/php-fpm.d/wordpress.conf
   notify: restart php-fpm
 
 - name: Start php-fpm Service

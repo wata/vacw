@@ -1,6 +1,7 @@
 # from galaxy
 - src: wata.base
 - src: wata.wordpress
+- src: zzet.rbenv
 
 # from github
 # - src: https://github.com/bennojoy/nginx
