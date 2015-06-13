@@ -1,7 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure(2) do |config|
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box  = 'chef/centos-6.6'
   config.ssh.forward_agent = true
   config.vm.box_check_update = true
@@ -54,6 +56,7 @@ Vagrant.configure(2) do |config|
       # mysql
       mysql_port: 3306,
 
+      # rbenv
       rbenv: {
         env: 'system',
         version: 'v0.4.0',
